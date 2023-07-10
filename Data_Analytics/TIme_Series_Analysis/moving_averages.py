@@ -1,5 +1,4 @@
 import pandas as pd
-import psycopg2
 from db.db_init import conn
 
 
@@ -14,7 +13,6 @@ def load_moving_average(csv_file, window):
     data = pd.read_csv(csv_file)
     data['Date'] = pd.to_datetime(data['Date'], format='%Y-%m-%d')
     moving_average = data['Close'].rolling(window=window).mean()
-
 
     # Create table in PostgreSQL
     cursor = conn.cursor()
@@ -36,4 +34,3 @@ def load_moving_average(csv_file, window):
 
     # Close the database connection
     cursor.close()
-

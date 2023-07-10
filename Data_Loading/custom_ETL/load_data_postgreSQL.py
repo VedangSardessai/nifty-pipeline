@@ -1,33 +1,8 @@
-from dotenv import dotenv_values
-import psycopg2
 import csv
-
-env_vars = dotenv_values('.env')
-username = env_vars['USERNAME']
-password = env_vars['PASSWORD']
-database_name = env_vars['DBNAME']
-port = env_vars['PORT']
-table_name = "nifty_data"
-
-# Database connection details
-db_host = 'localhost'
-db_port = port
-db_name = database_name
-db_user = username
-db_password = password
-
+from db.db_init import conn
 
 def load_csv_to_postgres(csv_file_path):
-    # Establish a connection to the PostgreSQL database
-    conn = psycopg2.connect(
-        host=db_host,
-        port=db_port,
-        database=db_name,
-        user=db_user,
-        password=db_password
-    )
-
-    # Create a cursor object to execute SQL queries
+    table_name = "nifty_data"
     cursor = conn.cursor()
 
     # Create the table if it doesn't exist
@@ -74,6 +49,6 @@ def load_csv_to_postgres(csv_file_path):
 
     # Close the cursor and database connection
     cursor.close()
-    conn.close()
+
 
     print("Data loaded into the PostgreSQL table.")

@@ -1,6 +1,8 @@
 from datetime import datetime
 from Data_Transformation.data_cleaning_function.cleanCSV import clean_transform_data
 from Data_Loading.custom_ETL.load_data_postgreSQL import load_csv_to_postgres
+from Data_Analytics.TIme_Series_Analysis.moving_averages import load_moving_average
+from Data_Analytics.TIme_Series_Analysis.exponential_smoothing import calculate_exponential_smoothing
 
 
 def save_data_to_csv(data):
@@ -21,4 +23,5 @@ def save_data_to_csv(data):
     # Print the data profile
 
     load_csv_to_postgres(cleaned_output_file)
-
+    load_moving_average(cleaned_output_file, window=10)
+    calculate_exponential_smoothing(cleaned_output_file, 0.25)

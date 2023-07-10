@@ -1,7 +1,6 @@
 from datetime import datetime
 from Data_Transformation.data_cleaning_function.cleanCSV import clean_transform_data
 from Data_Loading.custom_ETL.load_data_postgreSQL import load_csv_to_postgres
-from Data_Quality_Checks.quality_checks import perform_data_quality_checks
 
 
 def save_data_to_csv(data):
@@ -19,7 +18,6 @@ def save_data_to_csv(data):
     clean_transform_data(output_file, cleaned_output_file)
     print("Data saved to", cleaned_output_file)
 
-    results = perform_data_quality_checks(cleaned_output_file)
     # Print the data profile
 
     load_csv_to_postgres(cleaned_output_file)

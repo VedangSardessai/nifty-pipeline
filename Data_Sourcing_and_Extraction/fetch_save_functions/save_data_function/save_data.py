@@ -3,6 +3,9 @@ from Data_Transformation.data_cleaning_function.cleanCSV import clean_transform_
 from Data_Loading.custom_ETL.load_data_postgreSQL import load_csv_to_postgres
 from Data_Analytics.TIme_Series_Analysis.moving_averages import load_moving_average
 from Data_Analytics.TIme_Series_Analysis.exponential_smoothing import calculate_exponential_smoothing
+from Data_Analytics.TIme_Series_Analysis.autocorrelation import calculate_autocorrelation
+from Data_Analytics.TIme_Series_Analysis.decomposition import perform_decomposition
+
 
 
 def save_data_to_csv(data):
@@ -25,3 +28,5 @@ def save_data_to_csv(data):
     load_csv_to_postgres(cleaned_output_file)
     load_moving_average(cleaned_output_file, window=10)
     calculate_exponential_smoothing(cleaned_output_file, 0.25)
+    # perform_decomposition(cleaned_output_file)
+    calculate_autocorrelation(cleaned_output_file, 25)

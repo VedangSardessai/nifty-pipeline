@@ -1,12 +1,13 @@
 from datetime import datetime
-from data_cleaning_function.cleanCSV import clean_transform_data
-from custom_ETL.load_data_postgreSQL import load_csv_to_postgres
+from Data_Transformation.data_cleaning_function.cleanCSV import clean_transform_data
+from Data_Loading.custom_ETL.load_data_postgreSQL import load_csv_to_postgres
+from Data_Quality_Checks.quality_checks import perform_data_quality_checks
 
 
 def save_data_to_csv(data):
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_file = f"historicalData/nifty_data_{timestamp}.csv"
-    cleaned_output_file = f"cleanedHistoricalData/cleaned_nifty_data_{timestamp}.csv"
+    output_file = f"Nifty_data_CSV/fetched_data_csv/nifty_data_{timestamp}.csv"
+    cleaned_output_file = f"Nifty_data_CSV/transformed_data_csv/cleaned_nifty_data_{timestamp}.csv"
 
     data_reset_index = data.reset_index()
     data_reset_index['Date'] = data_reset_index['Date'].dt.strftime('%Y-%m-%d')
@@ -17,6 +18,9 @@ def save_data_to_csv(data):
 
     clean_transform_data(output_file, cleaned_output_file)
     print("Data saved to", cleaned_output_file)
+
+    results = perform_data_quality_checks(cleaned_output_file)
+    # Print the data profile
 
     load_csv_to_postgres(cleaned_output_file)
 
